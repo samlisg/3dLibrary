@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./uploads:/app/uploads
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3982:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: 3duser
+      POSTGRES_PASSWORD: 3dpass
+      POSTGRES_DB: 3dlib
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
